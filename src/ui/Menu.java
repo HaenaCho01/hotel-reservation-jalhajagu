@@ -1,8 +1,11 @@
 package ui;
 
+import entity.Customer;
+
 import java.util.Scanner;
 
 public class Menu {
+    // public static Boolean flag = false;
     private Scanner scanner;
     private Console console;
 
@@ -18,7 +21,7 @@ public class Menu {
             inputNum = selectMenu();
             if (inputNum == 1) {
                 displayManagerMenu(false);
-            } else displayCustomerMenu(false);
+            } else displayCustomerMenu();
         }
     }
 
@@ -56,47 +59,78 @@ public class Menu {
         }
     }
 
-    private void displayCustomerMenu(boolean loginStatus) {
+    private void displayCustomerMenu() {
         System.out.println("(일반 고객용)");
         System.out.println("아래 메뉴를 선택해주세요");
-        if (loginStatus == false) {
-            System.out.println("1. 로그인");
-            System.out.println("2. 회원가입");
-            System.out.println("3. 종료");
-            printLine();
-            int inputNum = selectMenu();
-            if (inputNum == 1) {
-                displayCustomerMenu(console.loginCustomer());
-            } else if (inputNum == 2) {
-                console.resisterCustomer();
-                displayCustomerMenu(false);
+        System.out.println("1. 로그인");
+        System.out.println("2. 회원가입");
+        System.out.println("3. 종료");
+        printLine();
+        int inputNum = selectMenu();
+        if (inputNum == 1) {
+            Customer customer = new Customer();
+            customer = console.loginCustomer();
+            displayCustomerMenuDetail(customer);
+        } else if (inputNum == 2) {
+            console.resisterCustomer();
+            displayCustomerMenu();
+        }
+        else {
+            System.exit(0);
+        }
+    }
+
+    private void displayCustomerMenuDetail(Customer customer) {
+        System.out.println("1. 소지금 조회");
+        System.out.println("2. 객실 신규 예약");
+        System.out.println("3. 객실 예약 취소");
+        System.out.println("4. 예약 조회");
+        System.out.println("5. 종료");
+        printLine();
+        int inputNum = selectMenu();
+        switch (inputNum){
+            case 1: {
+                console.checkMoney();
+                break;
             }
-        } else{
-            System.out.println("1. 소지금 조회");
-            System.out.println("2. 객실 신규 예약");
-            System.out.println("3. 객실 예약 취소");
-            System.out.println("4. 예약 조회");
-            System.out.println("5. 종료");
-            printLine();
-            int inputNum = selectMenu();
-            switch (inputNum){
-                case 1: {
-                    console.checkMoney();
-                    break;
-                }
-                case 2: {
-                    console.reserve();
-                    break;
-                }
-                case 3: {
-                    console.cancel();
-                }
-                case 4: {
-                    console.checkReservation();
-                }
+            case 2: {
+                console.reserve(customer);
+                break;
+            }
+            case 3: {
+                console.cancel();
+            }
+            case 4: {
+                console.checkReservation();
             }
         }
     }
+//        else{
+//            System.out.println("1. 소지금 조회");
+//            System.out.println("2. 객실 신규 예약");
+//            System.out.println("3. 객실 예약 취소");
+//            System.out.println("4. 예약 조회");
+//            System.out.println("5. 종료");
+//            printLine();
+//            int inputNum = selectMenu();
+//            switch (inputNum){
+//                case 1: {
+//                    console.checkMoney();
+//                    break;
+//                }
+//                case 2: {
+//                    console.reserve();
+//                    break;
+//                }
+//                case 3: {
+//                    console.cancel();
+//                }
+//                case 4: {
+//                    console.checkReservation();
+//                }
+//            }
+//        }
+
 
     private void printLine() {
         System.out.println("-----------------------------------");
