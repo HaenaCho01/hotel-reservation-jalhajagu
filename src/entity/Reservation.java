@@ -1,6 +1,7 @@
 package entity;
 
 import java.time.Duration;
+import java.time.Period;
 import java.util.UUID;
 
 public class Reservation {
@@ -8,19 +9,16 @@ public class Reservation {
     private Room room;
     private String customerName;
     private String customerPhoneNumber;
-    private String date;
-    private Duration duration;
+    private String confirmationDate; // 예약 확정한 날짜
+    private Period period; // 숙박 기간
 
-    private Reservation(){
+    public Reservation(Room room, String customerName, String customerPhoneNumber, String confirmationDate, Period period) {
         this.id = UUID.randomUUID().toString();
-    }
-    public Reservation(Room room, String customerName, String customerPhoneNumber, String date, Duration duration) {
-        this();
         this.room = room;
         this.customerName = customerName;
         this.customerPhoneNumber = customerPhoneNumber;
-        this.date = date;
-        this.duration = duration;
+        this.confirmationDate = confirmationDate;
+        this.period = period;
     }
 
     public String getId() {
@@ -51,19 +49,30 @@ public class Reservation {
         this.customerPhoneNumber = customerPhoneNumber;
     }
 
-    public String getDate() {
-        return date;
+    public String getConfirmationDate() {
+        return confirmationDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setConfirmationDate(String date) {
+        this.confirmationDate = date;
     }
 
-    public Duration getDuration() {
-        return duration;
+    public Period getPeriod() {
+        return period;
     }
 
-    public void setDuration(Duration duration) {
-        this.duration = duration;
+    public void setPeriod(Period period) {
+        this.period = period;
     }
+
+//    @Override
+//    public String toString() {
+//        return "예약 id : " + id +
+//                "\n객실 번호 : " + room.getRoomNumber() +
+//                "\n고객 성함 : " + customerName +
+//                "\n고객 전화번호 : " + customerPhoneNumber +
+//                "\n예약 확정 시간 : " + confirmationDate +
+//                "\n숙박 기간 : " + period.toString() + "\n"
+//                ;
+//    }
 }
