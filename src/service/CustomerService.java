@@ -2,12 +2,12 @@ package service;
 
 import entity.Customer;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CustomerService {
-    ArrayList<Customer> customers;
+    HashMap<String, Customer> customers;  // 전화번호를 key값으로 함
 
     public CustomerService(){
-        this.customers = new ArrayList<>();
+        this.customers = new HashMap<>();
     }
 }

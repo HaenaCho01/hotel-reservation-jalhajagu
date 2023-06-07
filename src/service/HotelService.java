@@ -3,9 +3,9 @@ package service;
 import entity.Hotel;
 
 public class HotelService {
-    private Hotel hotel;
+    Hotel hotel;
 
-    public HotelService() {
+    public HotelService(){
         this.hotel = new Hotel();
     }
 }
