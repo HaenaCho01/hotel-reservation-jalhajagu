@@ -3,20 +3,22 @@ package service;
 import entity.Customer;
 import entity.Reservation;
 import entity.Room;
+import util.ConsoleUtil;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class ReservationService {
     private Map<String, Reservation> reservationMap;
     private HotelService hotelService;
+    private ConsoleUtil consoleUtil;
 
     public ReservationService(){
         this.reservationMap = new HashMap<>();
         this.hotelService = new HotelService();
+        this.consoleUtil = new ConsoleUtil();
     }
 
     public void addReservation(int roomNumber, Customer customer, LocalDate startDate, LocalDate endDate) {
@@ -41,9 +43,7 @@ public class ReservationService {
     }
 
     public void cancelReservation(Customer customer) { // 예약 취소하기
-        System.out.println("취소할 예약번호를 입력해주세요!");
-        Scanner sc = new Scanner(System.in);
-        String id = sc.nextLine(); // 예약번호 입력
+        String id = consoleUtil.getValueOf("취소할 예약번호를 입력해주세요"); // 예약번호 입력
 
         Reservation reservation = reservationMap.get(id);
         int roomPrice = reservation.getRoom().getPrice();
@@ -68,9 +68,7 @@ public class ReservationService {
     }
 
     public void checkReservation() { // 예약번호로 예약 조회하기
-        System.out.println("조회할 예약번호를 입력해주세요!");
-        Scanner sc = new Scanner(System.in);
-        String id = sc.nextLine(); // 예약번호 입력
+        String id = consoleUtil.getValueOf("조회할 예약번호를 입력해주세요"); // 예약번호 입력
 
         if (reservationMap.containsKey(id)) { // 예약번호가 있을 시 예약내용 반환
             String checkReservation = reservationMap.get(id).toString();
