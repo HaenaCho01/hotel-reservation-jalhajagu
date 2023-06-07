@@ -1,3 +1,5 @@
+package entity;
+
 public class Room {
     int roomNumber;
     String size;
