@@ -29,7 +29,8 @@ public class Console {
 
 
     public boolean loginManager() {
-        return true;
+        int inputCode = Integer.parseInt(consoleUtil.getValueOf("코드를 입력해주세요"));
+        return hotelService.loginSuccess(inputCode);
     }
 
     public void checkTotalSales() {
