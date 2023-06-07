@@ -1,16 +1,12 @@
 package ui;
 
-import entity.Room;
 import entity.Customer;
 import service.CustomerService;
 import service.HotelService;
 import service.ReservationService;
 import util.ConsoleUtil;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Console {
     private Scanner scanner;
@@ -40,22 +36,22 @@ public class Console {
     public void checkAllReservations() {
     }
 
-    public boolean loginCustomer() {
-        return true;
+    public Customer loginCustomer() {
+        return null;
     }
 
     public void resisterCustomer() {
     }
 
-    public void checkMoney() {
+    public void checkMoney(Customer customer) {
     }
 
-    public void reserve() {
+    public void reserve(Customer customer) {
     }
 
-    public void cancel() {
+    public void cancel(Customer customer) {
     }
 
-    public void checkReservation() {
+    public void checkReservation(Customer customer) {
     }
 }
