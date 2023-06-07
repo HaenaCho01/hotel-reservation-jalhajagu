@@ -34,6 +34,7 @@ public class Console {
     }
 
     public void checkTotalSales() {
+        hotelService.checkTotalSales();
     }
 
     public void checkAllReservation() {
