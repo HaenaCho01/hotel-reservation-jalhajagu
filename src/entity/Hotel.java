@@ -10,40 +10,30 @@ public class Hotel {
     private int loginCode;
 
     public Hotel() {
-        this.name = "";
-        this.rooms = addRoom();
+        this.name = "잘하자구 호텔";
+        this.rooms = new ArrayList<>();
         this.totalSales = 0;
         this.loginCode = 1234;
+        addRooms();
     }
 
-    private List<Room> addRoom() {
-        List<Room> roomsList = new ArrayList<>();
-        ArrayList<Room> rooms = new ArrayList<>();
-        roomsList.add(new Room(0, "21.74", 50000));
-        roomsList.add(new Room(1, "21.74", 50000));
-        roomsList.add(new Room(2, "21.74", 50000));
-        roomsList.add(new Room(3, "35.48", 80000));
-        roomsList.add(new Room(4, "35.48", 80000));
-        roomsList.add(new Room(5, "35.48", 80000));
-        roomsList.add(new Room(6, "50.85", 150000));
-        roomsList.add(new Room(7, "50.85", 150000));
-        return roomsList;
+    private void addRooms() {
+        rooms.add(new Room(0, "Standard", 50000));
+        rooms.add(new Room(1, "Standard", 50000));
+        rooms.add(new Room(2, "Standard", 50000));
+        rooms.add(new Room(3, "Superior", 80000));
+        rooms.add(new Room(4, "Superior", 80000));
+        rooms.add(new Room(5, "Deluxe", 100000));
+        rooms.add(new Room(6, "Deluxe", 100000));
+        rooms.add(new Room(7, "Suite", 150000));
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public List<Room> getRooms() {
         return rooms;
-    }
-
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
     }
 
     public int getTotalSales() {
@@ -56,9 +46,5 @@ public class Hotel {
 
     public int getLoginCode() {
         return loginCode;
-    }
-
-    public void setLoginCode(int loginCode) {
-        this.loginCode = loginCode;
     }
 }
