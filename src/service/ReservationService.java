@@ -26,10 +26,12 @@ public class ReservationService {
         String confirmationDate = ""; // 현재 시간을 UTC 포맷으로
         Period period = Period.between(startDate, endDate);
         Reservation reservation = new Reservation(room, customer.getName(), customer.getPhoneNumber(), confirmationDate, period);
-        reservationMap.put("", reservation);
+        reservationMap.put(reservation.getId(), reservation);
+        System.out.println("객실 예약이 성공적으로 완료되었습니다.");
 
         int roomPrice = room.getPrice();
         makePayment(customer, roomPrice);
+        System.out.println("숙박 금액이 결제되었습니다.");
     }
 
     private void makePayment(Customer customer, int roomPrice) {
@@ -39,6 +41,25 @@ public class ReservationService {
 
         // 호텔 매출에 반영
         hotelService.addToTotalSales(roomPrice);
+    }
+
+    public void cancelReservation(Customer customer, String id) {
+        Reservation reservation = reservationMap.get(id);
+        int roomPrice = reservation.getRoom().getPrice();
+        reservationMap.remove(id);
+        System.out.println("해당 예약이 성공적으로 취소되었습니다.");
+
+        refund(customer, roomPrice);
+        System.out.println("숙박 금액이 환불되었습니다.");
+    }
+
+    private void refund(Customer customer, int roomPrice) {
+        // 고객 소지금에서 숙박비 더하고...
+        int updatedMoney = customer.getMoney() + roomPrice;
+        customer.setMoney(updatedMoney);
+
+        // 호텔 매출에 반영
+        hotelService.subtractFromTotalSales(roomPrice);
     }
 
     public void checkAllReservations() {
