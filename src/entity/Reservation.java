@@ -10,9 +10,9 @@ public class Reservation {
     private String customerName;
     private String customerPhoneNumber;
     private String confirmationDate; // 예약 확정한 날짜
-    private Period period; // 숙박 기간
+    private int period; // 숙박 기간
 
-    public Reservation(Room room, String customerName, String customerPhoneNumber, String confirmationDate, Period period) {
+    public Reservation(Room room, String customerName, String customerPhoneNumber, String confirmationDate, int period) {
         this.id = UUID.randomUUID().toString();
         this.room = room;
         this.customerName = customerName;
@@ -57,13 +57,10 @@ public class Reservation {
         this.confirmationDate = date;
     }
 
-    public Period getPeriod() {
+    public int getPeriod() {
         return period;
     }
 
-    public void setPeriod(Period period) {
-        this.period = period;
-    }
 
     @Override
     public String toString() {

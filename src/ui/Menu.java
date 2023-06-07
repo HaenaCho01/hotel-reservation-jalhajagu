@@ -5,6 +5,7 @@ import entity.Customer;
 import java.util.Scanner;
 
 public class Menu {
+    // public static Boolean flag = false;
     private Scanner scanner;
     private Console console;
 
@@ -107,6 +108,7 @@ public class Menu {
             displayCustomerMenu(customer);
         }
     }
+
 
     private void printLine() {
         System.out.println("-----------------------------------");
