@@ -58,9 +58,7 @@ public class ReservationService {
         }
     }
 
-    public void cancelReservation(Customer customer) { // 예약 취소하기
-        String id = consoleUtil.getValueOf("취소할 예약번호를 입력해주세요"); // 예약번호 입력
-
+    public void cancelReservation(Customer customer, String id) { // 예약 취소하기
         Reservation reservation = reservationMap.get(id);
         int roomPrice = reservation.getRoom().getPrice();
         reservationMap.remove(id);
@@ -83,9 +81,7 @@ public class ReservationService {
         }
     }
 
-    public void checkReservation() { // 예약번호로 예약 조회하기
-        String id = consoleUtil.getValueOf("조회할 예약번호를 입력해주세요"); // 예약번호 입력
-
+    public void checkReservation(Customer customer, String id) { // 예약번호로 예약 조회하기
         if (reservationMap.containsKey(id)) { // 예약번호가 있을 시 예약내용 반환
             String checkReservation = reservationMap.get(id).toString();
             System.out.println(checkReservation);
