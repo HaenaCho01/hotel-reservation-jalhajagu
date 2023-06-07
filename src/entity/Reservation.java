@@ -65,14 +65,14 @@ public class Reservation {
         this.period = period;
     }
 
-//    @Override
-//    public String toString() {
-//        return "예약 id : " + id +
-//                "\n객실 번호 : " + room.getRoomNumber() +
-//                "\n고객 성함 : " + customerName +
-//                "\n고객 전화번호 : " + customerPhoneNumber +
-//                "\n예약 확정 시간 : " + confirmationDate +
-//                "\n숙박 기간 : " + period.toString() + "\n"
-//                ;
-//    }
+    @Override
+    public String toString() {
+        return "예약 id : " + id +
+                "\n객실 번호 : " + room.getRoomNumber() +
+                "\n고객 성함 : " + customerName +
+                "\n고객 전화번호 : " + customerPhoneNumber +
+                "\n예약 확정 시간 : " + confirmationDate +
+                "\n숙박 기간 : " + period.toString() + "\n"
+                ;
+    }
 }

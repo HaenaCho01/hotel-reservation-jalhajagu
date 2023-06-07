@@ -1,7 +1,7 @@
 package ui;
 
-import entity.Reservation;
 import entity.Room;
+import entity.Customer;
 import service.CustomerService;
 import service.HotelService;
 import service.ReservationService;
