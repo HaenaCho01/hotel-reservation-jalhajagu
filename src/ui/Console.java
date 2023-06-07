@@ -69,10 +69,7 @@ public class Console {
             }
         }
         String password = consoleUtil.getValueOf("비밀번호를 입력해주세요");
-        Customer customer = new Customer();
-        customer.setName(name);
-        customer.setPhoneNumber(phoneNumber);
-        customer.setPassword(password);
+        Customer customer = new Customer(name, phoneNumber, password, 100000);
         customerService.customers.put(phoneNumber, customer);
     }
 

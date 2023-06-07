@@ -69,7 +69,7 @@ public class Reservation {
                 "\n고객 성함 : " + customerName +
                 "\n고객 전화번호 : " + customerPhoneNumber +
                 "\n예약 확정 시간 : " + confirmationDate +
-                "\n숙박 기간 : " + period.toString() + "\n"
+                "\n숙박 기간 : " + period + "\n"
                 ;
     }
 }
