@@ -24,7 +24,6 @@ public class Menu {
 
 
     private void displayMainMenu() {
-        printLine();
         System.out.println("[ 호텔 예약 프로그램 ]");
         System.out.println("환영합니다! 본인의 역할은 무엇입니까?");
         System.out.println("1. 관리자");
@@ -97,7 +96,6 @@ public class Menu {
                 }
             }
         }
-        printLine();
     }
 
     private void printLine() {
