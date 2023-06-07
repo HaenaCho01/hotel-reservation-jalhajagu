@@ -1,7 +1,7 @@
 package ui;
 
-import entity.Reservation;
 import entity.Room;
+import entity.Customer;
 import service.CustomerService;
 import service.HotelService;
 import service.ReservationService;
@@ -29,13 +29,15 @@ public class Console {
 
 
     public boolean loginManager() {
-        return true;
+        int inputCode = Integer.parseInt(consoleUtil.getValueOf("코드를 입력해주세요"));
+        return hotelService.loginSuccess(inputCode);
     }
 
     public void checkTotalSales() {
+        hotelService.checkTotalSales();
     }
 
-    public void checkAllReservation() {
+    public void checkAllReservations() {
     }
 
     public boolean loginCustomer() {

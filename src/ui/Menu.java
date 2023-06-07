@@ -51,7 +51,7 @@ public class Menu {
             if (inputNum == 1){
                 console.checkTotalSales();
             } else if (inputNum == 2){
-                console.checkAllReservation();
+                console.checkAllReservations();
             }
         }
     }
