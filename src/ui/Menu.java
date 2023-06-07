@@ -15,14 +15,7 @@ public class Menu {
     }
 
     public void show() {
-        int inputNum = 0;
-        while (true) {
-            displayMainMenu();
-            inputNum = selectMenu();
-            if (inputNum == 1) {
-                displayManagerMenu(false);
-            } else displayCustomerMenu();
-        }
+        displayMainMenu();
     }
 
 
@@ -32,6 +25,10 @@ public class Menu {
         System.out.println("1. 관리자");
         System.out.println("2. 고객");
         printLine();
+        int inputNum = selectMenu();
+        if (inputNum == 1) {
+            displayManagerMenu(false);
+        } else displayCustomerMenu(null);
     }
 
     private void displayManagerMenu(boolean loginStatus) {
@@ -44,6 +41,8 @@ public class Menu {
             int inputNum = selectMenu();
             if (inputNum == 1) {
                 displayManagerMenu(console.loginManager());
+            } else {
+                displayMainMenu();
             }
         } else {
             System.out.println("1. 보유 자산 조회");
@@ -51,85 +50,64 @@ public class Menu {
             System.out.println("3. 종료");
             printLine();
             int inputNum = selectMenu();
-            if (inputNum == 1){
+            if (inputNum == 1) {
                 console.checkTotalSales();
-            } else if (inputNum == 2){
+                displayManagerMenu(true);
+            } else if (inputNum == 2) {
                 console.checkAllReservations();
-            }
+                displayManagerMenu(true);
+            } else displayMainMenu();
         }
     }
 
-    private void displayCustomerMenu() {
+    private void displayCustomerMenu(Customer customer) {
         System.out.println("(일반 고객용)");
         System.out.println("아래 메뉴를 선택해주세요");
-        System.out.println("1. 로그인");
-        System.out.println("2. 회원가입");
-        System.out.println("3. 종료");
-        printLine();
-        int inputNum = selectMenu();
-        if (inputNum == 1) {
-            Customer customer = new Customer();
-            customer = console.loginCustomer();
-            displayCustomerMenuDetail(customer);
-        } else if (inputNum == 2) {
-            console.resisterCustomer();
-            displayCustomerMenu();
-        }
-        else {
-            System.exit(0);
+        if (customer == null) {
+            System.out.println("1. 로그인");
+            System.out.println("2. 회원가입");
+            System.out.println("3. 종료");
+            printLine();
+            int inputNum = selectMenu();
+            if (inputNum == 1) {
+                displayCustomerMenu(console.loginCustomer());
+            } else if (inputNum == 2) {
+                console.resisterCustomer();
+                displayCustomerMenu(null);
+            } else {
+                displayMainMenu();
+            }
+        } else {
+            System.out.println("1. 소지금 조회");
+            System.out.println("2. 객실 신규 예약");
+            System.out.println("3. 객실 예약 취소");
+            System.out.println("4. 예약 조회");
+            System.out.println("5. 종료");
+            printLine();
+            int inputNum = selectMenu();
+            switch (inputNum) {
+                case 1: {
+                    console.checkMoney(customer);
+                    break;
+                }
+                case 2: {
+                    console.reserve(customer);
+                    break;
+                }
+                case 3: {
+                    console.cancel(customer);
+                    break;
+                }
+                case 4: {
+                    console.checkReservation(customer);
+                    break;
+                }
+                default:
+                    displayMainMenu();
+            }
+            displayCustomerMenu(customer);
         }
     }
-
-    private void displayCustomerMenuDetail(Customer customer) {
-        System.out.println("1. 소지금 조회");
-        System.out.println("2. 객실 신규 예약");
-        System.out.println("3. 객실 예약 취소");
-        System.out.println("4. 예약 조회");
-        System.out.println("5. 종료");
-        printLine();
-        int inputNum = selectMenu();
-        switch (inputNum){
-            case 1: {
-                console.checkMoney();
-                break;
-            }
-            case 2: {
-                console.reserve(customer);
-                break;
-            }
-            case 3: {
-                console.cancel();
-            }
-            case 4: {
-                console.checkReservation();
-            }
-        }
-    }
-//        else{
-//            System.out.println("1. 소지금 조회");
-//            System.out.println("2. 객실 신규 예약");
-//            System.out.println("3. 객실 예약 취소");
-//            System.out.println("4. 예약 조회");
-//            System.out.println("5. 종료");
-//            printLine();
-//            int inputNum = selectMenu();
-//            switch (inputNum){
-//                case 1: {
-//                    console.checkMoney();
-//                    break;
-//                }
-//                case 2: {
-//                    console.reserve();
-//                    break;
-//                }
-//                case 3: {
-//                    console.cancel();
-//                }
-//                case 4: {
-//                    console.checkReservation();
-//                }
-//            }
-//        }
 
 
     private void printLine() {

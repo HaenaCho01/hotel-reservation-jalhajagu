@@ -4,7 +4,7 @@ import entity.Hotel;
 import entity.Room;
 
 public class HotelService {
-    Hotel hotel;
+    private Hotel hotel;
 
     public HotelService() {
         this.hotel = new Hotel();
@@ -20,6 +20,11 @@ public class HotelService {
 
     public void addToTotalSales(int roomPrice) {
         int updatedSales = hotel.getTotalSales() + roomPrice;
+        hotel.setTotalSales(updatedSales);
+    }
+
+    public void subtractFromTotalSales(int roomPrice) {
+        int updatedSales = hotel.getTotalSales() - roomPrice;
         hotel.setTotalSales(updatedSales);
     }
 

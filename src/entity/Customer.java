@@ -6,35 +6,38 @@ public class Customer {
     private String password;
     private int money;
 
-    public String getName() {
-        return name;
+    public Customer(String name, String phoneNumber, String password, int money) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.money = money;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getName() {
+        return name;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public int getMoney() {
         return money;
     }
 
-    public void setMoney(int money) {
-        this.money = money;
+    public boolean canAfford(int price) {
+        return this.money >= price;
+    }
+
+    public void makePayment(int price) {
+        this.money -= price;
+    }
+
+    public void getRefund(int price) {
+        this.money += price;
     }
 }
