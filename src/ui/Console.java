@@ -37,7 +37,7 @@ public class Console {
         hotelService.checkTotalSales();
     }
 
-    public void checkAllReservation() {
+    public void checkAllReservations() {
     }
 
     public boolean loginCustomer() {
