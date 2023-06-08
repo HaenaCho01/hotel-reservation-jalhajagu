@@ -1,5 +1,7 @@
 package entity;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,5 +48,18 @@ public class Room {
 
     public void setReservedDate(Set reservedDate) {
         this.reservedDate = reservedDate;
+    }
+
+    public void addReservedDate(ArrayList<LocalDate> dates) {
+        for (LocalDate date : dates) {
+            this.reservedDate.add(date);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "방번호: " + roomNumber +
+                ", 크기: " + size + "제곱미터" +
+                ", 이용요금: 1박당 " + price + "원";
     }
 }
