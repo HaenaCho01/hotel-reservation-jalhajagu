@@ -43,14 +43,16 @@ public class ReservationService {
             System.out.println("숙박 금액이 결제되었습니다.");
             System.out.println("객실 예약이 성공적으로 완료되었습니다.");
             System.out.println("고객님의 예약번호는 " + reservation.getId() + "입니다.");
+            consoleUtil.printLine();
         } else {
             System.out.println("숙박 금액이 소지금보다 많아 예약이 불가합니다.");
+            consoleUtil.printLine();
         }
     }
 
     public void cancelReservation(Customer customer, String id) { // 예약 취소하기
         Reservation reservation = reservationMap.get(id);
-        int roomPrice = reservation.getRoom().getPrice();
+        int roomPrice = reservation.getRoom().getPrice() * reservation.getPeriod();
         reservationMap.remove(id);
         System.out.println("해당 예약이 성공적으로 취소되었습니다.");
 
