@@ -38,10 +38,11 @@ public class ReservationService {
             // 예약 객체 생성
             Reservation reservation = new Reservation(room, customer.getName(), customer.getPhoneNumber(), nowAsISO, days);
             reservationMap.put(reservation.getId(), reservation);
-            System.out.println("객실 예약이 성공적으로 완료되었습니다.");
-            // 정산
+            // 정산 및 확인 출력
             customer.makePayment(roomPrice * days);
             System.out.println("숙박 금액이 결제되었습니다.");
+            System.out.println("객실 예약이 성공적으로 완료되었습니다.");
+            System.out.println("고객님의 예약번호는 " + reservation.getId() + "입니다.");
         } else {
             System.out.println("숙박 금액이 소지금보다 많아 예약이 불가합니다.");
         }
