@@ -105,6 +105,6 @@ public class Console {
         String id = consoleUtil.getValueOf("조회할 예약번호를 입력해주세요");
         System.out.printf("%s번 예약 상세 내역은 다음과 같습니다.\n", id);
         Reservation reservation = controller.checkReservation(id);
-        System.out.println(reservation);
+        if (reservation != null) System.out.println(reservation);
     }
 }

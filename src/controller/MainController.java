@@ -23,7 +23,12 @@ public class MainController {
     }
 
     public Hotel adminLogin(int inputCode) {
-        return hotelService.adminLogin(inputCode);
+        try {
+            return hotelService.adminLogin(inputCode);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public ArrayList<Reservation> checkAllReservations() {
@@ -31,20 +36,33 @@ public class MainController {
     }
 
     public Customer customerLogin(String phoneNumber, String password) {
-        Customer customer = customerService.findCustomer(phoneNumber);
-        customerService.checkPassword(customer, password);
-        return customer;
+        try {
+            Customer customer = customerService.findCustomer(phoneNumber);
+            customerService.checkPassword(customer, password);
+            return customer;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public void resisterCustomer(String name, String phoneNumber, String password, int money) {
         Customer customer = new Customer(name, phoneNumber, password, money);
-        customerService.addCustomer(customer);
-        System.out.println("회원가입이 완료되었습니다");
+        try {
+            customerService.addCustomer(customer);
+            System.out.println("회원가입이 완료되었습니다");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void makeReservation(Room room, Customer customer, LocalDate startDate, LocalDate endDate) {
-        int price = reservationService.addReservation(room, customer, startDate, endDate);
-        hotelService.addToTotalSales(price);
+        try {
+            int price = reservationService.addReservation(room, customer, startDate, endDate);
+            hotelService.addToTotalSales(price);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void cancelReservation(Customer customer, String id) {
@@ -57,7 +75,12 @@ public class MainController {
     }
 
     public Reservation checkReservation(String id) {
-        return reservationService.getReservation(id);
+        try {
+            return reservationService.getReservation(id);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public ArrayList<LocalDate> convertToDateList(LocalDate startDate, LocalDate endDate) {

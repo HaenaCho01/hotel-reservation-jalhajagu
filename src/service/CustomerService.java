@@ -4,17 +4,15 @@ import entity.Customer;
 import exception.CustomerNotFoundException;
 import exception.DuplicatedCustomerException;
 import exception.PasswordNotMatchedException;
-import util.ConsoleUtil;
 
 import java.util.HashMap;
 
 public class CustomerService {
-    private ConsoleUtil consoleUtil;
     public HashMap<String, Customer> customers;  // 전화번호를 key 값으로
 
     public CustomerService() {
         this.customers = new HashMap<>();
-        this.consoleUtil = new ConsoleUtil();
+        this.customers.put("010-1234-1234", new Customer("isak", "010-1234-1234", "1234", 1000000));
     }
 
 
