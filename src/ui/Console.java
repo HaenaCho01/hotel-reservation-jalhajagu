@@ -79,7 +79,7 @@ public class Console {
     }
 
     public void checkMoney(Customer customer) {
-        reservationService.checkMoney(customer);
+        customerService.checkMoney(customer);
     }
 
     public void reserve(Customer customer) {
@@ -127,7 +127,7 @@ public class Console {
 
     public void cancel(Customer customer) {
         String id = consoleUtil.getValueOf("취소할 예약번호를 입력해주세요"); // 예약번호 입력
-        reservationService.cancelReservation(customer, id);
+        reservationService.cancelReservation(hotelService, customer, id);
     }
 
     public void checkReservation(Customer customer) {

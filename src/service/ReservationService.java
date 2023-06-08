@@ -3,8 +3,8 @@ package service;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
+
 import entity.Customer;
 import entity.Reservation;
 import entity.Room;
@@ -36,7 +36,7 @@ public class ReservationService {
             df.setTimeZone(tz);
             String nowAsISO = df.format(new Date());
             // 예약 객체 생성
-            Reservation reservation = new Reservation(room, customer.getName(), customer.getPhoneNumber(), nowAsISO, days);
+            Reservation reservation = new Reservation(room, customer.getName(), customer.getPhoneNumber(), nowAsISO, startDate, endDate, days);
             reservationMap.put(reservation.getId(), reservation);
             // 정산 및 확인 출력
             customer.makePayment(roomPrice * days);
@@ -50,14 +50,35 @@ public class ReservationService {
         }
     }
 
-    public void cancelReservation(Customer customer, String id) { // 예약 취소하기
-        Reservation reservation = reservationMap.get(id);
-        int roomPrice = reservation.getRoom().getPrice() * reservation.getPeriod();
-        reservationMap.remove(id);
-        System.out.println("해당 예약이 성공적으로 취소되었습니다.");
+    public void cancelReservation(HotelService hotelService, Customer customer, String id) { // 예약 취소하기
+        if (reservationMap.containsKey(id)) { // 예약번호가 있을 시 예약취소 처리
+            Reservation reservation = reservationMap.get(id);
+            int roomPrice = reservation.getRoom().getPrice();
+            int days = reservation.getPeriod();
 
-        customer.getRefund(roomPrice);
-        System.out.println("숙박 금액이 환불되었습니다.");
+            reservationMap.remove(id);
+            System.out.println("해당 예약이 성공적으로 취소되었습니다.");
+
+            // 방 예약가능상태로 바꿈
+            LocalDate startDate = reservation.getStartDate();
+            ArrayList<LocalDate> dates = new ArrayList<>();
+            for (int i = 0; i < days; i++){
+                dates.add(startDate.plusDays(i));
+            }
+            Room room = reservation.getRoom();
+            room.substractReservedDate(dates);
+
+            // 고객 소지금 환불 및 호텔 매출 감소
+            customer.getRefund(roomPrice * days);
+            hotelService.subtractFromTotalSales(roomPrice * days);
+            System.out.println("숙박 금액이 환불되었습니다.");
+            consoleUtil.printLine();
+        } else { // 해당 예약변호가 없을 시 출력
+            consoleUtil.printLine();
+            System.out.println("조회되지 않는 예약 번호입니다. 확인 후 다시 입력해주세요! 이전 화면으로 돌아갑니다!");
+            consoleUtil.printLine();
+        }
+
     }
 
     public void checkAllReservations() {
@@ -74,10 +95,13 @@ public class ReservationService {
 
     public void checkReservation(Customer customer, String id) { // 예약번호로 예약 조회하기
         if (reservationMap.containsKey(id)) { // 예약번호가 있을 시 예약내용 반환
-            String checkReservation = reservationMap.get(id).toString();
-            System.out.println(checkReservation);
+            consoleUtil.printLine();
+            System.out.println(reservationMap.get(id));
+            consoleUtil.printLine();
         } else { // 해당 예약변호가 없을 시 출력
-            System.out.println("조회되지 않는 예약 번호입니다. 확인 후 다시 입력해주세요!");
+            consoleUtil.printLine();
+            System.out.println("조회되지 않는 예약 번호입니다. 확인 후 다시 입력해주세요! 이전 화면으로 돌아갑니다!");
+            consoleUtil.printLine();
         }
     }
 }

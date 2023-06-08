@@ -56,6 +56,12 @@ public class Room {
         }
     }
 
+    public void substractReservedDate(ArrayList<LocalDate> dates) {
+        for (LocalDate date : dates) {
+            this.reservedDate.remove(date);
+        }
+    }
+
     @Override
     public String toString() {
         return "방번호: " + roomNumber +
