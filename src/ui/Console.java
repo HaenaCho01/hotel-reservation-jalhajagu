@@ -93,8 +93,15 @@ public class Console {
         }
         Room room = selectRoom(dates);
 
+        // 가격이 초과되지 않을 경우에만 addReservedDate
+        int daysForCheck = (int) ChronoUnit.DAYS.between(startDate, endDate);
+        if (customer.canAfford(room.getPrice() * daysForCheck)) {
+            room.addReservedDate(dates);
+        }
+
+        // 예약 시작
         reservationService.addReservation(room, customer, startDate, endDate);
-        room.addReservedDate(dates);
+
     }
 
     private Room selectRoom(ArrayList<LocalDate> dates) {
@@ -120,9 +127,7 @@ public class Console {
         System.out.print("원하시는 객실을 선택해주세요: ");
         int inputNum = scanner.nextInt();
         scanner.nextLine();
-        Room room = rooms.get(inputNum);
-        room.addReservedDate(dates);
-        return room;
+        return rooms.get(inputNum);
     }
 
     public void cancel(Customer customer) {
