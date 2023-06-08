@@ -47,7 +47,7 @@ public class MainController {
     }
 
     public void cancelReservation(Customer customer, String id) {
-        int price = reservationService.cancelReservation(customer, id);
+        int price = reservationService.cancelReservation(hotelService, customer, id);
         hotelService.subtractFromTotalSales(price);
     }
 

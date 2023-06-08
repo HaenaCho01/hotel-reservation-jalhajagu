@@ -1,8 +1,6 @@
 package entity;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.UUID;
 
 public class Reservation {
@@ -13,15 +11,16 @@ public class Reservation {
     private String confirmationDate; // 예약 확정한 날짜
     private LocalDate startDate;
     private LocalDate endDate;
-    private int period; // 숙박 기간
+//    private int period; // 숙박 기간
 
-    public Reservation(Room room, String customerName, String customerPhoneNumber, String confirmationDate, int period) {
+    public Reservation(Room room, String customerName, String customerPhoneNumber, String confirmationDate, LocalDate startDate, LocalDate endDate) {
         this.id = UUID.randomUUID().toString();
         this.room = room;
         this.customerName = customerName;
         this.customerPhoneNumber = customerPhoneNumber;
         this.confirmationDate = confirmationDate;
-        this.period = period;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public String getId() {
@@ -32,50 +31,28 @@ public class Reservation {
         return room;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getCustomerPhoneNumber() {
-        return customerPhoneNumber;
-    }
-
-    public void setCustomerPhoneNumber(String customerPhoneNumber) {
-        this.customerPhoneNumber = customerPhoneNumber;
-    }
-
-    public String getConfirmationDate() {
-        return confirmationDate;
-    }
-
-    public void setConfirmationDate(String date) {
-        this.confirmationDate = date;
-    }
-
-    public int getPeriod() {
-        return period;
-    }
-
     public boolean belongsTo(String phoneNumber) {
         return this.customerPhoneNumber.equals(phoneNumber);
     }
 
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+
     @Override
     public String toString() {
         return "예약 id : " + id +
-                "\n객실 번호 : " + room.getRoomNumber() +
+                ", 예약 확정 시간 : " + confirmationDate +
+                ", 객실 번호 : " + room.getRoomNumber() +
                 "\n고객 성함 : " + customerName +
-                "\n고객 전화번호 : " + customerPhoneNumber +
-                "\n예약 확정 시간 : " + confirmationDate +
-                "\n숙박 기간 : " + period + "\n"
+                ", 고객 전화번호 : " + customerPhoneNumber +
+                "\n숙박 기간 : " + startDate + " ~ " + endDate
                 ;
     }
 }

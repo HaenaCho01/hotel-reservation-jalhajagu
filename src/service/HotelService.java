@@ -23,7 +23,7 @@ public class HotelService {
     }
 
     public Hotel adminLogin(int inputCode) {
-        if(inputCode != hotel.getLoginCode()) {
+        if (inputCode != hotel.getLoginCode()) {
             throw new PasswordNotMatchedException("로그인 코드가 올바르지 않습니다.");
         }
         return hotel;

@@ -22,37 +22,24 @@ public class Room {
         return roomNumber;
     }
 
-    public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
     public int getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
 
     public Set getReservedDate() {
         return reservedDate;
     }
 
-    public void setReservedDate(Set reservedDate) {
-        this.reservedDate = reservedDate;
-    }
-
     public void addReservedDate(ArrayList<LocalDate> dates) {
         for (LocalDate date : dates) {
             this.reservedDate.add(date);
+        }
+    }
+
+    public void substractReservedDate(ArrayList<LocalDate> dates) {
+        for (LocalDate date : dates) {
+            this.reservedDate.remove(date);
         }
     }
 
