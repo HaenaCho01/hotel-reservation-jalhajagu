@@ -28,6 +28,8 @@ public class Menu {
         int inputNum = selectMenu();
         if (inputNum == 1) {
             displayManagerMenu(null);
+        } else if (inputNum == 2){
+            displayCustomerMenu(null);
         } else {
             System.out.println("역할을 다시 입력해주세요");
             displayMainMenu();
