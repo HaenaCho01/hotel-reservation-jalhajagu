@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Hotel {
     private String name;
-    private List<Room> rooms;
+    private ArrayList<Room> rooms;
     private int totalSales;
     private int loginCode;
 
@@ -24,7 +24,7 @@ public class Hotel {
         return name;
     }
 
-    public List<Room> getRooms() {
+    public ArrayList<Room> getRooms() {
         return rooms;
     }
 
@@ -32,12 +32,8 @@ public class Hotel {
         return totalSales;
     }
 
-    public void addToTotalSales(int price) {
-        this.totalSales += price;
-    }
-
-    public void subtractFromTotalSales(int price) {
-        this.totalSales -= price;
+    public void setTotalSales(int totalSales) {
+        this.totalSales = totalSales;
     }
 
     public int getLoginCode() {

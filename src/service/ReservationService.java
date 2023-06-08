@@ -22,7 +22,7 @@ public class ReservationService {
         this.reservationMap = new HashMap<>();
     }
 
-    public void addReservation(Room room, Customer customer, LocalDate startDate, LocalDate endDate) {
+    public int addReservation(Room room, Customer customer, LocalDate startDate, LocalDate endDate) {
         int roomPrice = room.getPrice();
         int days = (int) ChronoUnit.DAYS.between(startDate, endDate);
 
@@ -38,32 +38,38 @@ public class ReservationService {
             reservationMap.put(customer.getPhoneNumber(), reservation);
 
             // 정산
-            customer.makePayment(roomPrice * days);
+            int price = roomPrice * days;
+            customer.makePayment(price);
+            return price;
         } else {
             throw new InsuffcientMoneyException("숙박 금액이 소지금보다 많아 예약이 불가합니다.");
         }
     }
 
-    public void cancelReservation(Customer customer, String id) {
+    public int cancelReservation(Customer customer, String id) {
         Reservation reservation = getReservation(id);
         int roomPrice = reservation.getRoom().getPrice();
         int period = reservation.getPeriod();
         reservationMap.remove(id);
-        customer.getRefund(roomPrice * period);
+
+        // 정산
+        int price = roomPrice * period;
+        customer.getRefund(price);
+        return price;
     }
 
     public ArrayList<Reservation> getAllReservations() {
         return new ArrayList<>(reservationMap.values());
     }
 
-    public ArrayList<String> getCustomerReservationIds(Customer customer) {
-        ArrayList<String> reservationIds = new ArrayList<>();
+    public ArrayList<Reservation> getCustomerReservations(Customer customer) {
+        ArrayList<Reservation> customerReservations = new ArrayList<>();
         for(Reservation reservation : reservationMap.values()) {
-            if(reservation.wasMadeBy(customer)) {
-                reservationIds.add(reservation.getId());
+            if(reservation.belongsTo(customer.getPhoneNumber())) {
+                customerReservations.add(reservation);
             }
         }
-        return reservationIds;
+        return customerReservations;
     }
 
     public Reservation getReservation(String id) {
@@ -71,5 +77,19 @@ public class ReservationService {
             throw new ReservationNotFoundException(id + "번 예약이 존재하지 않습니다.");
         }
         return reservationMap.get(id);
+    }
+
+    public ArrayList<LocalDate> getDateList(LocalDate startDate, LocalDate endDate) {
+        int days = (int) ChronoUnit.DAYS.between(startDate, endDate);
+        ArrayList<LocalDate> dates = new ArrayList<>();
+        for (int i = 0; i < days; i++){
+            dates.add(startDate.plusDays(i));
+        }
+        return dates;
+    }
+
+    public Room reserveRoom(Room room, ArrayList<LocalDate> dates) {
+        room.addReservedDate(dates);
+        return room;
     }
 }

@@ -4,6 +4,7 @@ import controller.MainController;
 import entity.Customer;
 import entity.Hotel;
 import entity.Reservation;
+import entity.Room;
 import util.ConsoleUtil;
 
 import java.time.LocalDate;
@@ -36,7 +37,7 @@ public class Console {
             System.out.println("예약 내역이 없습니다.");
         } else {
             for(Reservation reservation : reservations) {
-                System.out.printf("예약 목록은 총 %d건 입니다.\n", reservations.size());
+                System.out.printf("예약 목록은 총 %d건입니다.\n", reservations.size());
                 System.out.println(reservation);
             }
         }
@@ -70,10 +71,17 @@ public class Console {
     }
 
     public void makeReservation(Customer customer) {
-        int roomNumber = Integer.parseInt(consoleUtil.getValueOf("숙박하실 객실 번호를 입력해주세요"));
         LocalDate startDate = LocalDate.parse(consoleUtil.getValueOf("체크인 날짜를 입력해주세요"));
         LocalDate endDate = LocalDate.parse(consoleUtil.getValueOf("체크아웃 날짜를 입력해주세요"));
-        controller.addReservation(roomNumber, customer, startDate, endDate);
+        System.out.println("선택하신 날짜에 예약가능한 객실목록은 아래와 같습니다.");
+        ArrayList<LocalDate> dates = controller.convertToDateList(startDate, endDate);
+        ArrayList<Room> availableRooms = controller.checkAvailableRooms(dates);
+        for (Room room : availableRooms) {
+            System.out.println(room);
+        }
+        int roomNumber = Integer.parseInt(consoleUtil.getValueOf("원하시는 객실 번호를 입력해주세요"));
+        Room room = controller.selectRoom(roomNumber, dates);
+        controller.makeReservation(room, customer, startDate, endDate);
     }
 
     public void cancelReservation(Customer customer) {
@@ -83,14 +91,14 @@ public class Console {
     }
 
     public void checkCustomerReservations(Customer customer) {
-        ArrayList<String> reservationIds = controller.getCustomerReservationIds(customer);
+        ArrayList<Reservation> reservations = controller.checkCustomerReservations(customer);
         System.out.printf("%s 고객님의 총 예약 내역입니다.\n", customer.getName());
-        for(int i = 0; i < reservationIds.size(); i++) {
-            System.out.printf("%d. %s번 예약\n", (i + 1), reservationIds.get(i));
+        for(int i = 0; i < reservations.size(); i++) {
+            System.out.printf("%d. %s번 예약\n", (i + 1), reservations.get(i).getId());
         }
         String id = consoleUtil.getValueOf("조회할 예약번호를 입력해주세요");
         System.out.printf("%s번 예약 상세 내역은 다음과 같습니다.\n", id);
-        Reservation reservation = controller.getReservation(id);
+        Reservation reservation = controller.checkReservation(id);
         System.out.println(reservation);
     }
 }

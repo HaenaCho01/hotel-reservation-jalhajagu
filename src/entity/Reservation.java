@@ -64,6 +64,9 @@ public class Reservation {
         return period;
     }
 
+    public boolean belongsTo(String phoneNumber) {
+        return this.customerPhoneNumber.equals(phoneNumber);
+    }
 
     @Override
     public String toString() {
@@ -74,9 +77,5 @@ public class Reservation {
                 "\n예약 확정 시간 : " + confirmationDate +
                 "\n숙박 기간 : " + period + "\n"
                 ;
-    }
-
-    public boolean wasMadeBy(Customer customer) {
-        return this.customerPhoneNumber.equals(customer.getPhoneNumber());
     }
 }

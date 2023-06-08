@@ -4,8 +4,6 @@ import entity.Customer;
 import entity.Hotel;
 import entity.Reservation;
 import entity.Room;
-import exception.CustomerNotFoundException;
-import exception.PasswordNotMatchedException;
 import service.CustomerService;
 import service.HotelService;
 import service.ReservationService;
@@ -22,48 +20,55 @@ public class MainController {
         this.hotelService = new HotelService();
         this.customerService = new CustomerService();
         this.reservationService = new ReservationService();
-        hotelService.registerHotel();
     }
 
     public Hotel adminLogin(int inputCode) {
         return hotelService.adminLogin(inputCode);
     }
 
-    public ArrayList<Reservation> getAllReservations() {
+    public ArrayList<Reservation> checkAllReservations() {
         return reservationService.getAllReservations();
     }
 
     public Customer customerLogin(String phoneNumber, String password) {
-        Customer customer = customerService.findOne(phoneNumber);
-        if (!customer.getPassword().equals(password)){
-            throw new PasswordNotMatchedException("비밀번호가 올바르지 않습니다. 다시 시도해주세요.");
-        }
+        Customer customer = customerService.findCustomer(phoneNumber);
+        customerService.checkPassword(customer, password);
         return customer;
     }
 
     public void resisterCustomer(String name, String phoneNumber, String password, int money) {
         Customer customer = new Customer(name, phoneNumber, password, money);
-        customerService.customers.put(phoneNumber, customer);
+        customerService.addCustomer(customer);
     }
 
-    public void addReservation(int roomNumber, Customer customer, LocalDate startDate, LocalDate endDate) {
-        Room room = hotelService.findRoom(roomNumber);
-        reservationService.addReservation(room, customer, startDate, endDate);
+    public void makeReservation(Room room, Customer customer, LocalDate startDate, LocalDate endDate) {
+        int price = reservationService.addReservation(room, customer, startDate, endDate);
+        hotelService.addToTotalSales(price);
     }
 
     public void cancelReservation(Customer customer, String id) {
-        reservationService.cancelReservation(customer, id);
+        int price = reservationService.cancelReservation(customer, id);
+        hotelService.subtractFromTotalSales(price);
     }
 
-    public ArrayList<String> getCustomerReservationIds(Customer customer) {
-        return reservationService.getCustomerReservationIds(customer);
+    public ArrayList<Reservation> checkCustomerReservations(Customer customer) {
+        return reservationService.getCustomerReservations(customer);
     }
 
-    public Reservation getReservation(String id) {
+    public Reservation checkReservation(String id) {
         return reservationService.getReservation(id);
     }
 
-    public ArrayList<Reservation> checkAllReservations() {
-        return reservationService.getAllReservations();
+    public ArrayList<LocalDate> convertToDateList(LocalDate startDate, LocalDate endDate) {
+        return reservationService.getDateList(startDate, endDate);
+    }
+
+    public ArrayList<Room> checkAvailableRooms(ArrayList<LocalDate> dates) {
+        return hotelService.getAvailableRooms(dates);
+    }
+
+    public Room selectRoom(int roomNumber, ArrayList<LocalDate> dates) {
+        Room room = hotelService.findRoom(roomNumber);
+        return reservationService.reserveRoom(room, dates);
     }
 }
