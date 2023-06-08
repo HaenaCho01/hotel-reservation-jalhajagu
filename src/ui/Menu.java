@@ -27,7 +27,14 @@ public class Menu {
         int inputNum = selectMenu();
         if (inputNum == 1) {
             displayManagerMenu(false);
-        } else displayCustomerMenu(null);
+        }
+        else if (inputNum == 2) {
+            displayCustomerMenu(null);
+        }
+        else {
+            System.out.println("역할을 다시 입력해주세요");
+            displayMainMenu();
+        }
     }
 
     private void displayManagerMenu(boolean loginStatus) {
@@ -40,8 +47,12 @@ public class Menu {
             int inputNum = selectMenu();
             if (inputNum == 1) {
                 displayManagerMenu(console.loginManager());
-            } else {
+            } else if (inputNum == 2) {
                 displayMainMenu();
+            }
+            else {
+                System.out.println("메뉴를 다시 선택해주세요");
+                displayManagerMenu(false);
             }
         } else {
             System.out.println("1. 보유 자산 조회");
@@ -55,7 +66,13 @@ public class Menu {
             } else if (inputNum == 2) {
                 console.checkAllReservations();
                 displayManagerMenu(true);
-            } else displayMainMenu();
+            } else if (inputNum == 3) {
+                displayMainMenu();
+            }
+            else {
+                System.out.println("메뉴를 다시 선택해주세요");
+                displayManagerMenu(true);
+            }
         }
     }
 
@@ -73,8 +90,12 @@ public class Menu {
             } else if (inputNum == 2) {
                 console.resisterCustomer();
                 displayCustomerMenu(null);
-            } else {
+            } else if (inputNum == 3) {
                 displayMainMenu();
+            }
+            else {
+                System.out.println("메뉴를 다시 선택해주세요");
+                displayCustomerMenu(null);
             }
         } else {
             System.out.println("1. 소지금 조회");
