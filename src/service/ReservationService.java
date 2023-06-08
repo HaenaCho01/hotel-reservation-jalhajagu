@@ -19,7 +19,7 @@ public class ReservationService {
         this.reservationMap = new HashMap<>();
     }
 
-    public int addReservation(Room room, Customer customer, LocalDate startDate, LocalDate endDate) {
+    public Reservation addReservation(Room room, Customer customer, LocalDate startDate, LocalDate endDate) {
         int roomPrice = room.getPrice();
         int days = (int) ChronoUnit.DAYS.between(startDate, endDate);
 
@@ -33,32 +33,26 @@ public class ReservationService {
             // 예약 객체 생성
             Reservation reservation = new Reservation(room, customer.getName(), customer.getPhoneNumber(), nowAsISO, startDate, endDate);
             reservationMap.put(reservation.getId(), reservation);
-            System.out.println("숙박 금액이 결제되었습니다.");
-            System.out.println("객실 예약이 성공적으로 완료되었습니다.");
-            System.out.println("고객님의 예약번호는 " + reservation.getId() + "입니다.");
-            printLine();
-            // 정산
-            int price = roomPrice * days;
-            customer.makePayment(price);
-            return price;
+
+            // 숙박비 결제
+            customer.makePayment(reservation.getTotalPrice());
+            return reservation;
         } else {
             throw new InsuffcientMoneyException("숙박 금액이 소지금보다 많아 예약이 불가합니다.");
         }
     }
 
-    public int cancelReservation(HotelService hotelService, Customer customer, String id) { // 예약 취소하기
-        if (reservationMap.containsKey(id)) { // 예약번호가 있을 시 예약취소 처리
+    public Reservation cancelReservation(Customer customer, String id) {
+        if (reservationMap.containsKey(id)) {
             Reservation reservation = reservationMap.get(id);
-            int roomPrice = reservation.getRoom().getPrice();
+            int totalPrice = reservation.getTotalPrice();
             LocalDate startDate = reservation.getStartDate();
-            LocalDate endDate = reservation.getEndDate();
+            int days = reservation.getDays();
 
-            int days = (int) ChronoUnit.DAYS.between(startDate, endDate);
-
+            // 예약 취소 처리
             reservationMap.remove(id);
-            System.out.println("해당 예약이 성공적으로 취소되었습니다.");
 
-            // 방 예약가능상태로 바꿈
+            // 방 예약가능 상태로 바꿈
             ArrayList<LocalDate> dates = new ArrayList<>();
             for (int i = 0; i < days; i++) {
                 dates.add(startDate.plusDays(i));
@@ -66,11 +60,9 @@ public class ReservationService {
             Room room = reservation.getRoom();
             room.substractReservedDate(dates);
 
-            // 고객 소지금 환불 및 호텔 매출 감소
-            customer.getRefund(roomPrice * days);
-            System.out.println("숙박 금액이 환불되었습니다.");
-            printLine();
-            return roomPrice * days;
+            // 고객 소지금 환불
+            customer.getRefund(totalPrice);
+            return reservation;
         } else { // 해당 예약변호가 없을 시 출력
             throw new ReservationNotFoundException();
         }
@@ -97,6 +89,10 @@ public class ReservationService {
         return reservationMap.get(id);
     }
 
+    public void reserveRoom(Room room, ArrayList<LocalDate> dates) {
+        room.addReservedDate(dates);
+    }
+
     public ArrayList<LocalDate> getDateList(LocalDate startDate, LocalDate endDate) {
         int days = (int) ChronoUnit.DAYS.between(startDate, endDate);
         ArrayList<LocalDate> dates = new ArrayList<>();
@@ -104,14 +100,5 @@ public class ReservationService {
             dates.add(startDate.plusDays(i));
         }
         return dates;
-    }
-
-    public void reserveRoom(Room room, ArrayList<LocalDate> dates) {
-        room.addReservedDate(dates);
-    }
-
-
-    private void printLine() {
-        System.out.println("-----------------------------------");
     }
 }

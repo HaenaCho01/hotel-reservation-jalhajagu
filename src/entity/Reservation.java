@@ -1,6 +1,8 @@
 package entity;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Reservation {
@@ -11,6 +13,7 @@ public class Reservation {
     private String confirmationDate; // 예약 확정한 날짜
     private LocalDate startDate;
     private LocalDate endDate;
+    private int totalPrice; // 고객이 결제한 금액
 //    private int period; // 숙박 기간
 
     public Reservation(Room room, String customerName, String customerPhoneNumber, String confirmationDate, LocalDate startDate, LocalDate endDate) {
@@ -21,6 +24,7 @@ public class Reservation {
         this.confirmationDate = confirmationDate;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.totalPrice = room.getPrice() * getDays();
     }
 
     public String getId() {
@@ -39,11 +43,15 @@ public class Reservation {
         return startDate;
     }
 
-
     public LocalDate getEndDate() {
         return endDate;
     }
 
+    public int getTotalPrice() { return totalPrice; }
+
+    public int getDays() {
+        return (int) ChronoUnit.DAYS.between(startDate, endDate);
+    }
 
     @Override
     public String toString() {
