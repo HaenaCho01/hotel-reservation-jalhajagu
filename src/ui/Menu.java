@@ -64,6 +64,8 @@ public class Menu {
             } else if (inputNum == 2) {
                 console.checkAllReservations();
                 displayManagerMenu(hotel);
+            } else if (inputNum == 3){
+                displayMainMenu();
             } else {
                 System.out.println("메뉴를 다시 선택해주세요");
                 displayManagerMenu(hotel);
@@ -85,9 +87,11 @@ public class Menu {
             } else if (inputNum == 2) {
                 console.resisterCustomer();
                 displayCustomerMenu(null);
+            } else if (inputNum == 3){
+                displayMainMenu();
             } else {
                 System.out.println("메뉴를 다시 선택해주세요");
-                displayMainMenu();
+                displayCustomerMenu(null);
             }
         } else {
             System.out.println("1. 소지금 조회");
