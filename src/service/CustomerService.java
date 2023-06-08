@@ -38,6 +38,5 @@ public class CustomerService {
         if (!customer.getPassword().equals(password)) {
             throw new PasswordNotMatchedException("비밀번호가 올바르지 않습니다. 다시 시도해주세요.");
         }
-        System.out.println("환영합니다 " + customer.getName() + "님");
     }
 }

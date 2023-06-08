@@ -75,9 +75,14 @@ public class MainController {
     }
 
     public Reservation cancelReservation(Customer customer, String id) {
-        Reservation reservation = reservationService.cancelReservation(customer, id);
-        hotelService.subtractFromTotalSales(reservation.getTotalPrice());
-        return reservation;
+        try {
+            Reservation reservation = reservationService.cancelReservation(customer, id);
+            hotelService.subtractFromTotalSales(reservation.getTotalPrice());
+            return reservation;
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public ArrayList<Reservation> checkCustomerReservations(Customer customer) {
