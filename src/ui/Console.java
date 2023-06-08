@@ -102,8 +102,10 @@ public class Console {
     public void cancelReservation(Customer customer) {
         String id = consoleUtil.getValueOf("취소할 예약번호를 입력해주세요");
         Reservation reservation = controller.cancelReservation(customer, id);
-        System.out.println(reservation.getId() + "번 예약이 성공적으로 취소되었습니다.");
-        System.out.println("숙박 금액이 환불되었습니다.");
+        if (reservation != null) {
+            System.out.println(reservation.getId() + "번 예약이 성공적으로 취소되었습니다.");
+            System.out.println("숙박 금액이 환불되었습니다.");
+        }
     }
 
     public void checkCustomerReservations(Customer customer) {
