@@ -1,15 +1,20 @@
 package ui;
 
 import entity.Customer;
+import entity.Room;
 import service.CustomerService;
 import service.HotelService;
 import service.ReservationService;
 import util.ConsoleUtil;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Console {
     private Scanner scanner;
@@ -78,11 +83,46 @@ public class Console {
     }
 
     public void reserve(Customer customer) {
-        int roomNumber = Integer.parseInt(consoleUtil.getValueOf("객실 번호를 입력해주세요"));
-        String startDate = consoleUtil.getValueOf("체크인 날짜를 입력해주세요");
-        String endDate = consoleUtil.getValueOf("체크아웃 날짜를 입력해주세요");
-        ReservationService reservation = new ReservationService();
-        reservation.addReservation(roomNumber, customer, startDate, endDate);
+        LocalDate startDate = LocalDate.parse(consoleUtil.getValueOf("체크인 날짜를 입력해주세요"));
+        LocalDate endDate = LocalDate.parse(consoleUtil.getValueOf("체크아웃 날짜를 입력해주세요"));
+        int days = (int) ChronoUnit.DAYS.between(startDate, endDate);
+
+        ArrayList<LocalDate> dates = new ArrayList<>();
+        for (int i = 0; i < days; i++){
+            dates.add(startDate.plusDays(i));
+        }
+        Room room = selectRoom(dates);
+
+        reservationService.addReservation(room, customer, startDate, endDate);
+        room.addReservedDate(dates);
+    }
+
+    private Room selectRoom(ArrayList<LocalDate> dates) {
+        List<Room> rooms = hotelService.getRooms();
+        System.out.println("선택하신 날짜에 예약가능한 객실목록은 아래와 같습니다.");
+
+        List<Room> availableRooms = new ArrayList<>();
+        for (Room room : rooms) {
+            boolean isAvailable = true;
+            for (LocalDate date : dates) {
+                if (room.getReservedDate().contains(date)) {
+                    isAvailable = false;
+                    break;
+                }
+            }
+            if (isAvailable) {
+                availableRooms.add(room);
+            }
+        }
+        for (Room room : availableRooms) {
+            System.out.println(room);
+        }
+        System.out.print("원하시는 객실을 선택해주세요: ");
+        int inputNum = scanner.nextInt();
+        scanner.nextLine();
+        Room room = rooms.get(inputNum);
+        room.addReservedDate(dates);
+        return room;
     }
 
     public void cancel(Customer customer) {
