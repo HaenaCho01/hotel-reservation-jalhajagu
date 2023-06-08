@@ -39,6 +39,7 @@ public class MainController {
     public void resisterCustomer(String name, String phoneNumber, String password, int money) {
         Customer customer = new Customer(name, phoneNumber, password, money);
         customerService.addCustomer(customer);
+        System.out.println("회원가입이 완료되었습니다");
     }
 
     public void makeReservation(Room room, Customer customer, LocalDate startDate, LocalDate endDate) {

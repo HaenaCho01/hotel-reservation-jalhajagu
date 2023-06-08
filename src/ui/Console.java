@@ -71,8 +71,8 @@ public class Console {
     }
 
     public void makeReservation(Customer customer) {
-        LocalDate startDate = LocalDate.parse(consoleUtil.getValueOf("체크인 날짜를 입력해주세요"));
-        LocalDate endDate = LocalDate.parse(consoleUtil.getValueOf("체크아웃 날짜를 입력해주세요"));
+        LocalDate startDate = LocalDate.parse(consoleUtil.getValueOf("체크인 날짜를 입력해주세요(YYYY-MM-DD)"));
+        LocalDate endDate = LocalDate.parse(consoleUtil.getValueOf("체크아웃 날짜를 입력해주세요(YYYY-MM-DD)"));
         System.out.println("선택하신 날짜에 예약가능한 객실목록은 아래와 같습니다.");
         ArrayList<LocalDate> dates = controller.convertToDateList(startDate, endDate);
         ArrayList<Room> availableRooms = controller.checkAvailableRooms(dates);
