@@ -1,6 +1,7 @@
 package ui;
 
 import entity.Customer;
+import entity.Hotel;
 
 import java.util.Scanner;
 
@@ -26,20 +27,20 @@ public class Menu {
         printLine();
         int inputNum = selectMenu();
         if (inputNum == 1) {
-            displayManagerMenu(false);
+            displayManagerMenu(null);
         } else displayCustomerMenu(null);
     }
 
-    private void displayManagerMenu(boolean loginStatus) {
+    private void displayManagerMenu(Hotel hotel) {
         System.out.println("(호텔 관리자용)");
         System.out.println("아래 메뉴를 선택해주세요");
-        if (!loginStatus) {
+        if (hotel == null) {
             System.out.println("1. 로그인");
             System.out.println("2. 종료");
             printLine();
             int inputNum = selectMenu();
             if (inputNum == 1) {
-                displayManagerMenu(console.loginManager());
+                displayManagerMenu(console.adminLogin());
             } else {
                 displayMainMenu();
             }
@@ -50,11 +51,11 @@ public class Menu {
             printLine();
             int inputNum = selectMenu();
             if (inputNum == 1) {
-                console.checkTotalSales();
-                displayManagerMenu(true);
+                console.checkTotalSales(hotel);
+                displayManagerMenu(hotel);
             } else if (inputNum == 2) {
                 console.checkAllReservations();
-                displayManagerMenu(true);
+                displayManagerMenu(hotel);
             } else displayMainMenu();
         }
     }
@@ -69,7 +70,7 @@ public class Menu {
             printLine();
             int inputNum = selectMenu();
             if (inputNum == 1) {
-                displayCustomerMenu(console.loginCustomer());
+                displayCustomerMenu(console.customerLogin());
             } else if (inputNum == 2) {
                 console.resisterCustomer();
                 displayCustomerMenu(null);
@@ -90,15 +91,15 @@ public class Menu {
                     break;
                 }
                 case 2: {
-                    console.reserve(customer);
+                    console.makeReservation(customer);
                     break;
                 }
                 case 3: {
-                    console.cancel(customer);
+                    console.cancelReservation(customer);
                     break;
                 }
                 case 4: {
-                    console.checkReservation(customer);
+                    console.checkCustomerReservations(customer);
                     break;
                 }
                 default:
