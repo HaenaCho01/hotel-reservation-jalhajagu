@@ -74,7 +74,7 @@ public class Console {
     }
 
     public void checkMoney(Customer customer) {
-        reservationService.checkMoney(customer);
+        customerService.checkMoney(customer);
     }
 
     public void reserve(Customer customer) {

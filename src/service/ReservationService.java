@@ -17,12 +17,10 @@ import java.util.Map;
 public class ReservationService {
     private Map<String, Reservation> reservationMap;
     private HotelService hotelService;
-    private ConsoleUtil consoleUtil;
 
     public ReservationService(){
         this.reservationMap = new HashMap<>();
         this.hotelService = new HotelService();
-        this.consoleUtil = new ConsoleUtil();
     }
 
     public void addReservation(int roomNumber, Customer customer, String startDate, String endDate) {
@@ -46,7 +44,9 @@ public class ReservationService {
 
             // 예약 객체 생성
             Reservation reservation = new Reservation(room, customer.getName(), customer.getPhoneNumber(), nowAsISO, days);
-            reservationMap.put(customer.getPhoneNumber(), reservation);
+            String id = reservation.getId();
+            reservationMap.put(id, reservation);
+            System.out.println("예약번호: " + id);
             System.out.println("객실 예약이 성공적으로 완료되었습니다.");
 
             // 정산
@@ -73,18 +73,9 @@ public class ReservationService {
 
     }
 
-    public void checkMoney(Customer customer) { // 소지금 조회하기
-        if (customer.getMoney() != 0) { // 고객 소지금 출력
-            System.out.println("고객님의 소지금은 " + customer.getMoney() + "원 입니다.");
-        } else if (customer.getMoney() == 0){ // 소지금이 없을 시 출력
-            System.out.println("고객님의 소지금이 없습니다.");
-        }
-    }
-
     public void checkReservation(Customer customer, String id) { // 예약번호로 예약 조회하기
         if (reservationMap.containsKey(id)) { // 예약번호가 있을 시 예약내용 반환
-            String checkReservation = reservationMap.get(id).toString();
-            System.out.println(checkReservation);
+            System.out.println(reservationMap.get(id));
         } else { // 해당 예약변호가 없을 시 출력
             System.out.println("조회되지 않는 예약 번호입니다. 확인 후 다시 입력해주세요!");
         }
