@@ -85,13 +85,6 @@ public class ReservationService {
 
     }
 
-    public void checkMoney(Customer customer) { // 소지금 조회하기
-        if (customer.getMoney() != 0) { // 고객 소지금 출력
-            System.out.println("고객님의 소지금은 " + customer.getMoney() + "원 입니다.");
-        } else if (customer.getMoney() == 0){ // 소지금이 없을 시 출력
-            System.out.println("고객님의 소지금이 없습니다.");
-        }
-    }
 
     public void checkReservation(Customer customer, String id) { // 예약번호로 예약 조회하기
         if (reservationMap.containsKey(id)) { // 예약번호가 있을 시 예약내용 반환
