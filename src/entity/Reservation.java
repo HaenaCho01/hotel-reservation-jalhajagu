@@ -1,6 +1,7 @@
 package entity;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.Period;
 import java.util.UUID;
 
@@ -10,14 +11,19 @@ public class Reservation {
     private String customerName;
     private String customerPhoneNumber;
     private String confirmationDate; // 예약 확정한 날짜
+    private LocalDate startDate; // 체크인 날짜
+    private LocalDate endDate; // 체크아웃 날짜
+
     private int period; // 숙박 기간
 
-    public Reservation(Room room, String customerName, String customerPhoneNumber, String confirmationDate, int period) {
+    public Reservation(Room room, String customerName, String customerPhoneNumber, String confirmationDate, LocalDate startDate, LocalDate endDate, int period) {
         this.id = UUID.randomUUID().toString();
         this.room = room;
         this.customerName = customerName;
         this.customerPhoneNumber = customerPhoneNumber;
         this.confirmationDate = confirmationDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.period = period;
     }
 
@@ -25,7 +31,10 @@ public class Reservation {
         return id;
     }
 
-    public Room getRoom() {
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+     public Room getRoom() {
         return room;
     }
 
@@ -57,6 +66,7 @@ public class Reservation {
         this.confirmationDate = date;
     }
 
+
     public int getPeriod() {
         return period;
     }
@@ -69,7 +79,9 @@ public class Reservation {
                 "\n고객 성함 : " + customerName +
                 "\n고객 전화번호 : " + customerPhoneNumber +
                 "\n예약 확정 시간 : " + confirmationDate +
-                "\n숙박 기간 : " + period + "\n"
+                "\n체크인 날짜 : " + startDate +
+                "\n체크아웃 날짜 : " + endDate +
+                "\n숙박 기간 : " + period + "박 " + (period+1) + "일"
                 ;
     }
 }

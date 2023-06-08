@@ -74,7 +74,7 @@ public class Console {
             }
         }
         String password = consoleUtil.getValueOf("비밀번호를 입력해주세요");
-        Customer customer = new Customer(name, phoneNumber, password, 100000);
+        Customer customer = new Customer(name, phoneNumber, password, 200000);
         customerService.customers.put(phoneNumber, customer);
     }
 
@@ -127,7 +127,7 @@ public class Console {
 
     public void cancel(Customer customer) {
         String id = consoleUtil.getValueOf("취소할 예약번호를 입력해주세요"); // 예약번호 입력
-        reservationService.cancelReservation(customer, id);
+        reservationService.cancelReservation(hotelService, customer, id);
     }
 
     public void checkReservation(Customer customer) {
