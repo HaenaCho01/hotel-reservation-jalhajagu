@@ -49,6 +49,7 @@ public class Console {
         if (customerService.customers.containsKey(phoneNumber)) {
             String password = consoleUtil.getValueOf("비밀번호를 입력해주세요");
             if (customerService.customers.get(phoneNumber).getPassword().equals(password)) {
+                System.out.println("환영합니다 " + customerService.customers.get(phoneNumber).getName() + "님");
                 return customerService.customers.get(phoneNumber);
             }
             else {
@@ -76,6 +77,7 @@ public class Console {
         String password = consoleUtil.getValueOf("비밀번호를 입력해주세요");
         Customer customer = new Customer(name, phoneNumber, password, 1000000);
         customerService.customers.put(phoneNumber, customer);
+        System.out.println("회원가입이 완료되었습니다");
     }
 
     public void checkMoney(Customer customer) {
@@ -83,8 +85,8 @@ public class Console {
     }
 
     public void reserve(Customer customer) {
-        LocalDate startDate = LocalDate.parse(consoleUtil.getValueOf("체크인 날짜를 입력해주세요"));
-        LocalDate endDate = LocalDate.parse(consoleUtil.getValueOf("체크아웃 날짜를 입력해주세요"));
+        LocalDate startDate = LocalDate.parse(consoleUtil.getValueOf("체크인 날짜를 입력해주세요(YYYY-MM-DD)"));
+        LocalDate endDate = LocalDate.parse(consoleUtil.getValueOf("체크아웃 날짜를 입력해주세요(YYYY-MM-DD)"));
         int days = (int) ChronoUnit.DAYS.between(startDate, endDate);
 
         ArrayList<LocalDate> dates = new ArrayList<>();
