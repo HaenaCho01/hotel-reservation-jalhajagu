@@ -16,42 +16,33 @@ import java.util.Map;
 
 public class ReservationService {
     private Map<String, Reservation> reservationMap;
-    private HotelService hotelService;
+    private ConsoleUtil consoleUtil;
 
     public ReservationService(){
         this.reservationMap = new HashMap<>();
-        this.hotelService = new HotelService();
+        this.consoleUtil = new ConsoleUtil();
     }
 
-    public void addReservation(int roomNumber, Customer customer, String startDate, String endDate) {
+    public void addReservation(Room room, Customer customer, LocalDate startDate, LocalDate endDate) {
         // 룸넘버로 객실 체크하기
-        Room room = hotelService.findRoom(roomNumber);
         int roomPrice = room.getPrice();
+        // 기간 계산
+        int days = (int) ChronoUnit.DAYS.between(startDate, endDate);
 
-        if(customer.canAfford(roomPrice)) {
-            // 기간 계산
-            String[] startSplit = startDate.split("-");
-            LocalDate start = LocalDate.of(Integer.parseInt(startSplit[0]), Integer.parseInt(startSplit[1]), Integer.parseInt(startSplit[2]));
-            String[] endSplit = endDate.split("-");
-            LocalDate end = LocalDate.of(Integer.parseInt(endSplit[0]), Integer.parseInt(endSplit[1]), Integer.parseInt(endSplit[2]));
-            int days = (int) ChronoUnit.DAYS.between(start, end);
-
+        if(customer.canAfford(roomPrice * days)) {
             // UTC 시간
             TimeZone tz = TimeZone.getTimeZone("UTC");
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
             df.setTimeZone(tz);
             String nowAsISO = df.format(new Date());
-
             // 예약 객체 생성
             Reservation reservation = new Reservation(room, customer.getName(), customer.getPhoneNumber(), nowAsISO, days);
             String id = reservation.getId();
             reservationMap.put(id, reservation);
             System.out.println("예약번호: " + id);
             System.out.println("객실 예약이 성공적으로 완료되었습니다.");
-
             // 정산
-            customer.makePayment(roomPrice);
-            hotelService.addToTotalSales(roomPrice);
+            customer.makePayment(roomPrice * days);
             System.out.println("숙박 금액이 결제되었습니다.");
         } else {
             System.out.println("숙박 금액이 소지금보다 많아 예약이 불가합니다.");

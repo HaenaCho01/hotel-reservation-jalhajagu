@@ -3,6 +3,8 @@ package service;
 import entity.Hotel;
 import entity.Room;
 
+import java.util.List;
+
 public class HotelService {
     private Hotel hotel;
 
@@ -26,6 +28,10 @@ public class HotelService {
     public void subtractFromTotalSales(int roomPrice) {
         int updatedSales = hotel.getTotalSales() - roomPrice;
         hotel.setTotalSales(updatedSales);
+    }
+
+    public List<Room> getRooms() {
+        return this.hotel.getRooms();
     }
 
     public Room findRoom(int roomNumber) {
