@@ -43,29 +43,25 @@ public class ReservationService {
     }
 
     public Reservation cancelReservation(Customer customer, String id) {
-        if (reservationMap.containsKey(id)) {
-            Reservation reservation = reservationMap.get(id);
-            int totalPrice = reservation.getTotalPrice();
-            LocalDate startDate = reservation.getStartDate();
-            int days = reservation.getDays();
+        Reservation reservation = findReservation(id);
+        int totalPrice = reservation.getTotalPrice();
+        LocalDate startDate = reservation.getStartDate();
+        int days = reservation.getDays();
 
-            // 예약 취소 처리
-            reservationMap.remove(id);
+        // 예약 취소 처리
+        reservationMap.remove(id);
 
-            // 방 예약가능 상태로 바꿈
-            ArrayList<LocalDate> dates = new ArrayList<>();
-            for (int i = 0; i < days; i++) {
-                dates.add(startDate.plusDays(i));
-            }
-            Room room = reservation.getRoom();
-            room.substractReservedDate(dates);
-
-            // 고객 소지금 환불
-            customer.getRefund(totalPrice);
-            return reservation;
-        } else { // 해당 예약변호가 없을 시 출력
-            throw new ReservationNotFoundException("해당하는 예약이 없습니다.");
+        // 방 예약가능 상태로 바꿈
+        ArrayList<LocalDate> dates = new ArrayList<>();
+        for (int i = 0; i < days; i++) {
+            dates.add(startDate.plusDays(i));
         }
+        Room room = reservation.getRoom();
+        room.substractReservedDate(dates);
+
+        // 고객 소지금 환불
+        customer.getRefund(totalPrice);
+        return reservation;
     }
 
     public ArrayList<Reservation> getAllReservations() {
@@ -82,7 +78,7 @@ public class ReservationService {
         return customerReservations;
     }
 
-    public Reservation getReservation(String id) {
+    public Reservation findReservation(String id) {
         if (!reservationMap.containsKey(id)) {
             throw new ReservationNotFoundException(id + "번 예약이 존재하지 않습니다.");
         }
