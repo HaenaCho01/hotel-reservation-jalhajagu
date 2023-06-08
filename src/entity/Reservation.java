@@ -1,6 +1,7 @@
 package entity;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.Period;
 import java.util.UUID;
 
@@ -10,6 +11,8 @@ public class Reservation {
     private String customerName;
     private String customerPhoneNumber;
     private String confirmationDate; // 예약 확정한 날짜
+    private LocalDate startDate;
+    private LocalDate endDate;
     private int period; // 숙박 기간
 
     public Reservation(Room room, String customerName, String customerPhoneNumber, String confirmationDate, int period) {
@@ -71,5 +74,9 @@ public class Reservation {
                 "\n예약 확정 시간 : " + confirmationDate +
                 "\n숙박 기간 : " + period + "\n"
                 ;
+    }
+
+    public boolean wasMadeBy(Customer customer) {
+        return this.customerPhoneNumber.equals(customer.getPhoneNumber());
     }
 }
