@@ -91,14 +91,13 @@ public class Console {
         for (int i = 0; i < days; i++){
             dates.add(startDate.plusDays(i));
         }
-
-        Room room = selectRoom(customer.getMoney(), dates);
+        Room room = selectRoom(dates);
 
         reservationService.addReservation(room, customer, startDate, endDate);
         room.addReservedDate(dates);
     }
 
-    private Room selectRoom(int money, ArrayList<LocalDate> dates) {
+    private Room selectRoom(ArrayList<LocalDate> dates) {
         List<Room> rooms = hotelService.getRooms();
         System.out.println("선택하신 날짜에 예약가능한 객실목록은 아래와 같습니다.");
 

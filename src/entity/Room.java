@@ -59,7 +59,7 @@ public class Room {
     @Override
     public String toString() {
         return "방번호: " + roomNumber +
-                ", 크기: " + size + "제곱미터" +
+                ", 크기: " + size +
                 ", 이용요금: 1박당 " + price + "원";
     }
 }
