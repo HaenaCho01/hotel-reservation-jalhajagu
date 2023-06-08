@@ -6,13 +6,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import entity.Customer;
-import entity.Hotel;
 import entity.Reservation;
 import entity.Room;
-import ui.Console;
 import util.ConsoleUtil;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReservationService {
     private Map<String, Reservation> reservationMap;
@@ -37,16 +37,16 @@ public class ReservationService {
             String nowAsISO = df.format(new Date());
             // 예약 객체 생성
             Reservation reservation = new Reservation(room, customer.getName(), customer.getPhoneNumber(), nowAsISO, startDate, endDate, days);
-            reservationMap.put(reservation.getId(), reservation); // 예약 키값: 예약번호
-            consoleUtil.printLine();
-            System.out.println("예약번호: " + reservation.getId()); // 예약번호 출력
-            System.out.println("객실 예약이 성공적으로 완료되었습니다.");
-            // 정산
+            reservationMap.put(reservation.getId(), reservation);
+            // 정산 및 확인 출력
             customer.makePayment(roomPrice * days);
             System.out.println("숙박 금액이 결제되었습니다.");
+            System.out.println("객실 예약이 성공적으로 완료되었습니다.");
+            System.out.println("고객님의 예약번호는 " + reservation.getId() + "입니다.");
             consoleUtil.printLine();
         } else {
             System.out.println("숙박 금액이 소지금보다 많아 예약이 불가합니다.");
+            consoleUtil.printLine();
         }
     }
 
@@ -83,6 +83,14 @@ public class ReservationService {
 
     public void checkAllReservations() {
 
+    }
+
+    public void checkMoney(Customer customer) { // 소지금 조회하기
+        if (customer.getMoney() != 0) { // 고객 소지금 출력
+            System.out.println("고객님의 소지금은 " + customer.getMoney() + "원 입니다.");
+        } else if (customer.getMoney() == 0){ // 소지금이 없을 시 출력
+            System.out.println("고객님의 소지금이 없습니다.");
+        }
     }
 
     public void checkReservation(Customer customer, String id) { // 예약번호로 예약 조회하기
