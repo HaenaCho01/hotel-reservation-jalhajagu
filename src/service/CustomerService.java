@@ -28,6 +28,7 @@ public class CustomerService {
             throw new DuplicatedCustomerException("이미 존재하는 고객입니다.");
         }
         customers.put(phoneNumber, customer);
+        System.out.println("회원가입이 완료되었습니다");
     }
 
     private boolean exist(String phoneNumber) {

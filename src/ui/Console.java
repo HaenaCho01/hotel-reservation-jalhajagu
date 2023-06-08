@@ -60,7 +60,6 @@ public class Console {
         String password = consoleUtil.getValueOf("비밀번호를 입력해주세요");
         int money = Integer.parseInt(consoleUtil.getValueOf("소지금을 입력해주세요"));
         controller.resisterCustomer(name, phoneNumber, password, money);
-        System.out.println("회원가입이 완료되었습니다");
     }
 
     private boolean isValid(String phoneNumber) {

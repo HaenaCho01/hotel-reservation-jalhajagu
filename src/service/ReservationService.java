@@ -64,7 +64,7 @@ public class ReservationService {
             customer.getRefund(totalPrice);
             return reservation;
         } else { // 해당 예약변호가 없을 시 출력
-            throw new ReservationNotFoundException();
+            throw new ReservationNotFoundException("해당하는 예약이 없습니다.");
         }
     }
 
