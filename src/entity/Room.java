@@ -15,7 +15,7 @@ public class Room {
         this.roomNumber = roomNumber;
         this.size = size;
         this.price = price;
-        this.reservedDate = new HashSet();
+        this.reservedDate = new HashSet<LocalDate>();
     }
 
     public int getRoomNumber() {
