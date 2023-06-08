@@ -9,14 +9,11 @@ import util.ConsoleUtil;
 import java.util.HashMap;
 
 public class CustomerService {
-    private ConsoleUtil consoleUtil;
-    public HashMap<String, Customer> customers;  // 전화번호를 key 값으로
+    public HashMap<String, Customer> customers;  // 전화번호를 key 값으로 가짐
 
     public CustomerService() {
         this.customers = new HashMap<>();
-        this.consoleUtil = new ConsoleUtil();
     }
-
 
     public Customer findCustomer(String phoneNumber) {
         if (!exist(phoneNumber)) {
@@ -41,6 +38,5 @@ public class CustomerService {
         if (!customer.getPassword().equals(password)) {
             throw new PasswordNotMatchedException("비밀번호가 올바르지 않습니다. 다시 시도해주세요.");
         }
-        System.out.println("환영합니다 " + customer.getName() + "님");
     }
 }
