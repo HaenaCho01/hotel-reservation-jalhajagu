@@ -42,7 +42,15 @@ public class MainController {
         System.out.println("회원가입이 완료되었습니다");
     }
 
-    public void makeReservation(Room room, Customer customer, LocalDate startDate, LocalDate endDate) {
+    public ArrayList<Room> checkAvailableRooms(LocalDate startDate, LocalDate endDate) {
+        ArrayList<LocalDate> dates = reservationService.getDateList(startDate, endDate);
+        return hotelService.getAvailableRooms(dates);
+    }
+
+    public void addReservation(int roomNumber, Customer customer, LocalDate startDate, LocalDate endDate) {
+        Room room = hotelService.findRoom(roomNumber);
+        ArrayList<LocalDate> dates = reservationService.getDateList(startDate, endDate);
+        reservationService.reserveRoom(room, dates);
         int price = reservationService.addReservation(room, customer, startDate, endDate);
         hotelService.addToTotalSales(price);
     }
@@ -58,18 +66,5 @@ public class MainController {
 
     public Reservation checkReservation(String id) {
         return reservationService.getReservation(id);
-    }
-
-    public ArrayList<LocalDate> convertToDateList(LocalDate startDate, LocalDate endDate) {
-        return reservationService.getDateList(startDate, endDate);
-    }
-
-    public ArrayList<Room> checkAvailableRooms(ArrayList<LocalDate> dates) {
-        return hotelService.getAvailableRooms(dates);
-    }
-
-    public Room selectRoom(int roomNumber, ArrayList<LocalDate> dates) {
-        Room room = hotelService.findRoom(roomNumber);
-        return reservationService.reserveRoom(room, dates);
     }
 }

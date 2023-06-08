@@ -106,9 +106,8 @@ public class ReservationService {
         return dates;
     }
 
-    public Room reserveRoom(Room room, ArrayList<LocalDate> dates) {
+    public void reserveRoom(Room room, ArrayList<LocalDate> dates) {
         room.addReservedDate(dates);
-        return room;
     }
 
 

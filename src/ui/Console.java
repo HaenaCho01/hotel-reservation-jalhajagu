@@ -73,21 +73,22 @@ public class Console {
             System.out.println("고객님의 소지금이 없습니다.");
         }
         consoleUtil.printLine();
-
     }
 
     public void makeReservation(Customer customer) {
         LocalDate startDate = LocalDate.parse(consoleUtil.getValueOf("체크인 날짜를 입력해주세요(YYYY-MM-DD)"));
         LocalDate endDate = LocalDate.parse(consoleUtil.getValueOf("체크아웃 날짜를 입력해주세요(YYYY-MM-DD)"));
+        ArrayList<Room> availableRooms = controller.checkAvailableRooms(startDate, endDate);
+        if(availableRooms.isEmpty()) {
+            System.out.println("선택하신 날짜에 예약가능한 객실이 없습니다.");
+            return;
+        }
         System.out.println("선택하신 날짜에 예약가능한 객실목록은 아래와 같습니다.");
-        ArrayList<LocalDate> dates = controller.convertToDateList(startDate, endDate);
-        ArrayList<Room> availableRooms = controller.checkAvailableRooms(dates);
         for (Room room : availableRooms) {
             System.out.println(room);
         }
         int roomNumber = Integer.parseInt(consoleUtil.getValueOf("원하시는 객실 번호를 입력해주세요"));
-        Room room = controller.selectRoom(roomNumber, dates);
-        controller.makeReservation(room, customer, startDate, endDate);
+        controller.addReservation(roomNumber, customer, startDate, endDate);
     }
 
     public void cancelReservation(Customer customer) {
