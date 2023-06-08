@@ -47,7 +47,7 @@ public class Console {
         String phoneNumber = consoleUtil.getValueOf("전화번호를 입력해주세요");
         String password = consoleUtil.getValueOf("비밀번호를 입력해주세요");
         Customer customer = controller.customerLogin(phoneNumber, password);
-        System.out.println("환영합니다 " + customer.getName() + "님!");
+        if (customer != null)  System.out.println("환영합니다 " + customer.getName() + "님!");
         return customer;
     }
 
@@ -92,9 +92,11 @@ public class Console {
         }
         int roomNumber = Integer.parseInt(consoleUtil.getValueOf("원하시는 객실 번호를 입력해주세요"));
         Reservation reservation = controller.addReservation(roomNumber, customer, startDate, endDate);
-        System.out.println("객실 예약이 성공적으로 완료되었습니다.");
-        System.out.println("숙박 금액이 결제되었습니다.");
-        System.out.println("고객님의 예약번호는 " + reservation.getId() + "입니다.");
+        if (reservation != null) {
+            System.out.println("객실 예약이 성공적으로 완료되었습니다.");
+            System.out.println("숙박 금액이 결제되었습니다.");
+            System.out.println("고객님의 예약번호는 " + reservation.getId() + "입니다.");
+        }
     }
 
     public void cancelReservation(Customer customer) {
