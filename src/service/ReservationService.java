@@ -37,7 +37,7 @@ public class ReservationService {
             String nowAsISO = df.format(new Date());
             // 예약 객체 생성
             Reservation reservation = new Reservation(room, customer.getName(), customer.getPhoneNumber(), nowAsISO, days);
-            reservationMap.put(customer.getPhoneNumber(), reservation);
+            reservationMap.put(reservation.getId(), reservation);
             System.out.println("객실 예약이 성공적으로 완료되었습니다.");
             // 정산
             customer.makePayment(roomPrice * days);
