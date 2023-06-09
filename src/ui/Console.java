@@ -36,8 +36,8 @@ public class Console {
         if(reservations.isEmpty()) {
             System.out.println("예약 내역이 없습니다.");
         } else {
+            System.out.printf("예약 목록은 총 %d건입니다.\n", reservations.size());
             for(Reservation reservation : reservations) {
-                System.out.printf("예약 목록은 총 %d건입니다.\n", reservations.size());
                 System.out.println(reservation);
             }
         }
