@@ -43,18 +43,22 @@ public class Menu {
         System.out.println("환영합니다! 본인의 역할은 무엇입니까?");
         System.out.println("1. 관리자");
         System.out.println("2. 고객");
+        System.out.println("3. 프로그램 종료");
         printLine();
         int inputNum = selectMenu();
         if (inputNum == 1) {
             userRole = "MANAGER";
             displayManagerMenu(null);
-        } else if (inputNum == 2){
+        } else if (inputNum == 2) {
             userRole = "CUSTOMER";
             displayCustomerMenu(null);
+        } else if (inputNum == 3) {
+            return;
         } else {
             System.out.println("역할을 다시 입력해주세요");
             displayMainMenu();
         }
+
     }
 
     private void displayManagerMenu(Hotel hotel) {
@@ -68,7 +72,8 @@ public class Menu {
             if (inputNum == 1) {
                 displayManagerMenu(console.adminLogin());
             } else if (inputNum == 2) {
-                return;
+                loginSuccess = false;
+                displayMainMenu();
             } else {
                 System.out.println("메뉴를 다시 선택해주세요");
                 displayManagerMenu(null);
@@ -87,8 +92,9 @@ public class Menu {
             } else if (inputNum == 2) {
                 console.checkAllReservations();
                 displayManagerMenu(hotel);
-            } else if (inputNum == 3){
-                return;
+            } else if (inputNum == 3) {
+                loginSuccess = false;
+                displayMainMenu();
             } else {
                 System.out.println("메뉴를 다시 선택해주세요");
                 displayManagerMenu(hotel);
@@ -111,7 +117,7 @@ public class Menu {
                 console.resisterCustomer();
                 displayCustomerMenu(null);
             } else if (inputNum == 3){
-                return;
+                displayMainMenu();
             } else {
                 System.out.println("메뉴를 다시 선택해주세요");
                 displayCustomerMenu(null);
@@ -144,6 +150,7 @@ public class Menu {
                     break;
                 }
                 case 5: {
+                    loginSuccess = false;
                     displayMainMenu();
                     break;
                 }
