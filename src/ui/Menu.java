@@ -53,7 +53,7 @@ public class Menu {
             userRole = "CUSTOMER";
             displayCustomerMenu(null);
         } else if (inputNum == 3) {
-            return;
+            System.exit(0);
         } else {
             System.out.println("역할을 다시 입력해주세요");
             displayMainMenu();
