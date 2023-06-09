@@ -47,7 +47,7 @@ public class Console {
         String phoneNumber = consoleUtil.getValueOf("전화번호를 입력해주세요");
         String password = consoleUtil.getValueOf("비밀번호를 입력해주세요");
         Customer customer = controller.customerLogin(phoneNumber, password);
-        if (customer != null)  System.out.println("환영합니다 " + customer.getName() + "님!");
+        System.out.println("환영합니다 " + customer.getName() + "님!");
         return customer;
     }
 
@@ -68,10 +68,10 @@ public class Console {
         return matcher.matches();
     }
 
-    public void checkMoney(Customer customer) { // 소지금 조회하기
-        if (customer.getMoney() != 0) { // 고객 소지금 출력
+    public void checkMoney(Customer customer) {
+        if (customer.getMoney() != 0) {
             System.out.println("고객님의 소지금은 " + customer.getMoney() + "원 입니다.");
-        } else{ // 소지금이 없을 시 출력
+        } else{
             System.out.println("고객님의 소지금이 없습니다.");
         }
         consoleUtil.printLine();
@@ -91,31 +91,31 @@ public class Console {
         }
         int roomNumber = Integer.parseInt(consoleUtil.getValueOf("원하시는 객실 번호를 입력해주세요"));
         Reservation reservation = controller.addReservation(roomNumber, customer, startDate, endDate);
-        if (reservation != null) {
-            System.out.println("객실 예약이 성공적으로 완료되었습니다.");
-            System.out.println("숙박 금액이 결제되었습니다.");
-            System.out.println("고객님의 예약번호는 " + reservation.getId() + "입니다.");
-        }
+        System.out.println("객실 예약이 성공적으로 완료되었습니다.");
+        System.out.println("숙박 금액이 결제되었습니다.");
+        System.out.println("고객님의 예약번호는 " + reservation.getId() + "입니다.");
     }
 
     public void cancelReservation(Customer customer) {
         String id = consoleUtil.getValueOf("취소할 예약번호를 입력해주세요");
         Reservation reservation = controller.cancelReservation(customer, id);
-        if (reservation != null) {
-            System.out.println(reservation.getId() + "번 예약이 성공적으로 취소되었습니다.");
-            System.out.println("숙박 금액이 환불되었습니다.");
-        }
+        System.out.println(reservation.getId() + "번 예약이 성공적으로 취소되었습니다.");
+        System.out.println("숙박 금액이 환불되었습니다.");
     }
 
     public void checkCustomerReservations(Customer customer) {
         ArrayList<Reservation> reservations = controller.checkCustomerReservations(customer);
-        System.out.printf("%s 고객님의 총 예약 내역입니다.\n", customer.getName());
+        if(reservations.isEmpty()) {
+            System.out.println(customer.getName() + " 고객님의 예약 내역이 존재하지 않습니다.");
+            return;
+        }
+        System.out.println(customer.getName() + " 고객님의 총 예약 내역입니다.");
         for(int i = 0; i < reservations.size(); i++) {
             System.out.printf("%d. %s번 예약\n", (i + 1), reservations.get(i).getId());
         }
         String id = consoleUtil.getValueOf("조회할 예약번호를 입력해주세요");
-        System.out.printf("%s번 예약 상세 내역은 다음과 같습니다.\n", id);
         Reservation reservation = controller.checkReservation(id);
-        if (reservation != null) System.out.println(reservation);
+        System.out.printf("%s번 예약 상세 내역은 다음과 같습니다.\n", id);
+        System.out.println(reservation);
     }
 }

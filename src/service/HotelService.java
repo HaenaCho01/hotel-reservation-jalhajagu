@@ -3,6 +3,7 @@ package service;
 import entity.Hotel;
 import entity.Room;
 import exception.PasswordNotMatchedException;
+import exception.RoomNotFoundException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,7 +31,11 @@ public class HotelService {
     }
 
     public Room findRoom(int roomNumber) {
-        return hotel.getRooms().get(roomNumber);
+        ArrayList<Room> rooms = hotel.getRooms();
+        if(roomNumber < 0 || roomNumber >= rooms.size()) {
+            throw new RoomNotFoundException("해당 번호의 객실이 존재하지 않습니다.");
+        }
+        return rooms.get(roomNumber);
     }
 
     public ArrayList<Room> getAvailableRooms(ArrayList<LocalDate> dates) {
